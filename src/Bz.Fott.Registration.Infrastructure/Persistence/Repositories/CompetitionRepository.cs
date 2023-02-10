@@ -1,4 +1,4 @@
-﻿using Bz.Fott.Registration.Domain.CompetitorRegistration;
+﻿using Bz.Fott.Registration.Domain.CompetitionIntegration;
 using Bz.Fott.Registration.Infrastructure.Persistence.Common;
 
 namespace Bz.Fott.Registration.Infrastructure.Persistence.Repositories;

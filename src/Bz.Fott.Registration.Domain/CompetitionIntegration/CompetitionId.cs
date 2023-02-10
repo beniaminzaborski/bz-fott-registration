@@ -1,6 +1,6 @@
 ﻿using Bz.Fott.Registration.Domain.Common;
 
-namespace Bz.Fott.Registration.Domain.CompetitorRegistration;
+namespace Bz.Fott.Registration.Domain.CompetitionIntegration;
 
 public record CompetitionId : EntityId<Guid>
 {

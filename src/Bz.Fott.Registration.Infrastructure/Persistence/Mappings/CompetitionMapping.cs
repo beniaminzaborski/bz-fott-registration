@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Bz.Fott.Registration.Domain.CompetitorRegistration;
+using Bz.Fott.Registration.Domain.CompetitionIntegration;
 
 namespace Bz.Fott.Registration.Infrastructure.Persistence.Mappings;
 
