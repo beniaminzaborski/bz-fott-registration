@@ -63,6 +63,8 @@ public static class DependencyInjection
         {
             x.SetKebabCaseEndpointNameFormatter();
 
+            x.AddConsumers(typeof(IApplicationService).Assembly);
+
             x.UsingAzureServiceBus((context, cfg) =>
             {
                 cfg.Host(configuration.GetConnectionString("AzureServiceBus"));
