@@ -31,7 +31,7 @@ jobs:
       shell: bash
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/'
-        dotnet build --configuration Release --output ./output
+        dotnet build --configuration Release --output output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
