@@ -12,7 +12,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: func-fott-registration-dev-westeu
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Bz.Fott.Registration.NumberAssignatorAzFunction/'
   AZURE_FUNCTIONAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_FUNCAPP_PUBLISH_PROFILE }}
   DOTNET_VERSION: '6.0'
 
@@ -31,8 +31,8 @@ jobs:
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: bash
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/'
-        dotnet build --configuration Release --output output
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
         popd
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
