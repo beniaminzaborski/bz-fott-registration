@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{8D3350B7-679
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bz.Fott.Registration.WebAPI", "src\Bz.Fott.Registration.WebAPI\Bz.Fott.Registration.WebAPI.csproj", "{6ABAC8AF-3705-4FDD-923F-62490CE8B4B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bz.Fott.Registration.Application", "src\Bz.Fott.Registration.Application\Bz.Fott.Registration.Application.csproj", "{67C6728C-555E-47AE-9FF7-E404A4C6ADE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bz.Fott.Registration.Application", "src\Bz.Fott.Registration.Application\Bz.Fott.Registration.Application.csproj", "{67C6728C-555E-47AE-9FF7-E404A4C6ADE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bz.Fott.Registration.Infrastructure", "src\Bz.Fott.Registration.Infrastructure\Bz.Fott.Registration.Infrastructure.csproj", "{7374FD1D-607C-4AD2-8C2D-D71DB21A269C}"
 EndProject
@@ -29,8 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{49D5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{0D772D28-6BD1-4A62-A984-A65B3F5535DE}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-and-deploy.yml = .github\workflows\build-and-deploy.yml
+		.github\workflows\build-and-deploy-appservice.yml = .github\workflows\build-and-deploy-appservice.yml
+		.github\workflows\build-and-deploy-functionapp.yml = .github\workflows\build-and-deploy-functionapp.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bz.Fott.Registration.NumberAssignatorAzFunction", "src\Bz.Fott.Registration.NumberAssignatorAzFunction\Bz.Fott.Registration.NumberAssignatorAzFunction.csproj", "{57455E30-9F4E-4520-BC67-2C66A208F76F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +57,10 @@ Global
 		{A617FE41-1B14-4657-911B-2F0C8C3CAB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A617FE41-1B14-4657-911B-2F0C8C3CAB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A617FE41-1B14-4657-911B-2F0C8C3CAB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57455E30-9F4E-4520-BC67-2C66A208F76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57455E30-9F4E-4520-BC67-2C66A208F76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57455E30-9F4E-4520-BC67-2C66A208F76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57455E30-9F4E-4520-BC67-2C66A208F76F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +71,7 @@ Global
 		{7374FD1D-607C-4AD2-8C2D-D71DB21A269C} = {A91950C1-1043-4698-B967-16ED1F728C03}
 		{A617FE41-1B14-4657-911B-2F0C8C3CAB95} = {A91950C1-1043-4698-B967-16ED1F728C03}
 		{0D772D28-6BD1-4A62-A984-A65B3F5535DE} = {49D5B21D-6CC9-469A-B8E6-60DA51BFA968}
+		{57455E30-9F4E-4520-BC67-2C66A208F76F} = {A91950C1-1043-4698-B967-16ED1F728C03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7FF9B86C-B7C7-43BE-A3B1-F3D2388C4C10}

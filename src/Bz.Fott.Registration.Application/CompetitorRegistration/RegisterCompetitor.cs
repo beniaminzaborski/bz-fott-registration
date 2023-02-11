@@ -1,6 +1,7 @@
 ﻿namespace Bz.Fott.Registration.Application.CompetitorRegistration;
 
 public record RegisterCompetitor(
+    Guid RequestId,
     Guid CompetitionId,
     string FirstName,
     string LastName,

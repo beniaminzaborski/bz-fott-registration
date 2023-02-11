@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Bz.Fott.Registration.NumberAssignatorAzFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7181",
+      "launchBrowser": false
+    }
+  }
+}

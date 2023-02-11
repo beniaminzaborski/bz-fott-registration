@@ -1,8 +1,10 @@
-name: Build and deploy service
+name: Build and deploy App Service
 
 on:
   workflow_dispatch: {}
-  push: {}
+  push:
+    paths-ignore:
+      - "src/Bz.Fott.Registration.NumberAssignatorAzFunction/**" 
 
 env:
   AZURE_WEBAPP_NAME: app-fott-registration-dev-westeu
