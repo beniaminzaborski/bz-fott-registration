@@ -9,12 +9,18 @@ namespace Bz.Fott.Registration.WebAPI.Controllers;
 [ApiController]
 public class RegistrationController : ControllerBase
 {
+    private readonly IRegistrationService _registrationService;
+
+    public RegistrationController(IRegistrationService registrationService)
+    {
+        _registrationService = registrationService;
+    }
+
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Accepted)]
     public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDto dto)
     {
-        
-        return Accepted(new { RequestId = Guid.NewGuid() });
+        var requestId = await _registrationService.RegisterAsync(dto);
+        return Accepted(new { RequestId = requestId });
     }
-
 }
