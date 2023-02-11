@@ -4,7 +4,8 @@ on:
   workflow_dispatch: {}
   push:
     paths-ignore:
-      - "src/Bz.Fott.Registration.NumberAssignatorAzFunction/**" 
+      - "src/Bz.Fott.Registration.NumberAssignatorAzFunction/**"
+      - ".github/workflows/build-and-deploy-functionapp.yml"
 
 env:
   AZURE_WEBAPP_NAME: app-fott-registration-dev-westeu

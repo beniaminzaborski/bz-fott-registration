@@ -7,7 +7,8 @@ on:
       - "src/Bz.Fott.Registration.WebAPI/**" 
       - "src/Bz.Fott.Registration.Application/**" 
       - "src/Bz.Fott.Registration.Domain/**" 
-      - "src/Bz.Fott.Registration.Infrastructure/**" 
+      - "src/Bz.Fott.Registration.Infrastructure/**"
+      - ".github/workflows/build-and-deploy-appservice.yml"
 
 env:
   AZURE_FUNCTIONAPP_NAME: func-fott-registration-dev-westeu
