@@ -31,6 +31,6 @@ public class RegistrationRequestDtoValidator : AbstractValidator<RegistrationReq
 
         RuleFor(x => x.BirthDate)
             .NotEmpty().WithMessage("Cannot be empty")
-            .LessThanOrEqualTo(x => x.BirthDate.AddYears(-12)).WithMessage("You have to be at least 12 years old");
+            .LessThan(x => DateTime.UtcNow.AddYears(-12)).WithMessage("You have to be at least 12 years old");
     }
 }
