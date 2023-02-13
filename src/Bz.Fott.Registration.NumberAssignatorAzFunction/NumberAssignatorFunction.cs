@@ -1,19 +1,20 @@
-using Azure.Core;
-using Bz.Fott.Registration.Application.CompetitorRegistration;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using NpgsqlTypes;
 using System;
+using Azure.Messaging.ServiceBus;
+using Bz.Fott.Registration.Application.CompetitorRegistration;
 
 namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 
 public class NumberAssignatorFunction
 {
     [FunctionName("NumberAssignator")]
-    public void Run([ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")]RegisterCompetitor registerCompetitor, ILogger log)
+    public void Run([ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage, ILogger log)
     {
-        log.LogInformation($"C# ServiceBus queue trigger function processed message: {registerCompetitor.RequestId}, {registerCompetitor.CompetitionId}, {registerCompetitor.FirstName}");
+        log.LogInformation($"C# ServiceBus queue trigger function processed message: {receivedMessage.ContentType}");
+        var registerCompetitor = receivedMessage.Body.ToObjectFromJson<RegisterCompetitor>();
+        log.LogInformation($"Message after deserializing: {registerCompetitor.RequestId}, {registerCompetitor.CompetitionId}, {registerCompetitor.FirstName}");
 
         var connectionString = Environment.GetEnvironmentVariable("PostgresConnectionString", EnvironmentVariableTarget.Process);
         log.LogInformation($"connectionString is {connectionString}");
