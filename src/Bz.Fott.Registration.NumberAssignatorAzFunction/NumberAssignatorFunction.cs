@@ -12,9 +12,10 @@ public class NumberAssignatorFunction
     [FunctionName("NumberAssignator")]
     public void Run([ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")]RegisterCompetitor registerCompetitor, ILogger log)
     {
-        log.LogInformation($"C# ServiceBus queue trigger function processed message: {registerCompetitor}");
+        log.LogInformation($"C# ServiceBus queue trigger function processed message!");
 
-        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:Postgres", EnvironmentVariableTarget.Process);
+        var connectionString = Environment.GetEnvironmentVariable("PostgresConnectionString", EnvironmentVariableTarget.Process);
+        log.LogInformation($"connectionString is {connectionString}");
 
         using var conn = new NpgsqlConnection(connectionString);
         conn.Open();
@@ -28,6 +29,7 @@ public class NumberAssignatorFunction
             ", conn, tran);
             numberGeneratorCmd.Parameters.AddWithValue("competitionId", registerCompetitor.CompetitionId);
             var number = (long)numberGeneratorCmd.ExecuteScalar();
+            log.LogInformation($"Get the Number: {number}");
 
             // Insert into Competitors table
             using var insertCompetitorCmd = new NpgsqlCommand(@"
@@ -48,7 +50,7 @@ public class NumberAssignatorFunction
         }
         catch (Exception ex)
         {
-            log.LogError($"Something went wrong for request id: {registerCompetitor.RequestId}");
+            log.LogError($"Something went wrong for request id: {registerCompetitor.RequestId}. Details: {ex.Message}");
             tran.Rollback();
         }
     }
