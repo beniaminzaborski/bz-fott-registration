@@ -2,14 +2,14 @@
 
 namespace Bz.Fott.Registration.Application.CompetitorRegistration;
 
-public record RegisterCompetitor(
-    Guid RequestId,
-    Guid CompetitionId,
-    string FirstName,
-    string LastName,
-    DateTime BirthDate,
-    string City,
-    string PhoneNumber,
-    string ContactPersonNumber)
+public record RegisterCompetitor
 {
+    public Guid RequestId { get; init; }
+    public Guid CompetitionId { get; init; }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+    public DateTime BirthDate { get; init; }
+    public string City { get; init; }
+    public string PhoneNumber { get; init; }
+    public string ContactPersonNumber { get; init; }
 }
