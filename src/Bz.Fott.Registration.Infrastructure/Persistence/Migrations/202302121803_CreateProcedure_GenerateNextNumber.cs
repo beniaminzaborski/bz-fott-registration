@@ -12,6 +12,8 @@ public class _202302121803_CreateProcedure_GenerateNextNumber : Migration
 
     public override void Up()
     {
+        Execute.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\" WITH SCHEMA pg_catalog cascade");
+
         Execute.Sql(@"
             CREATE OR REPLACE PROCEDURE generate_next_number(competitionIdParam uuid)
             LANGUAGE SQL
