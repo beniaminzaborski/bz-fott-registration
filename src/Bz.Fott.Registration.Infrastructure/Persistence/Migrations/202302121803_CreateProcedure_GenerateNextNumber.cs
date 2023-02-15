@@ -12,7 +12,7 @@ public class _202302121803_CreateProcedure_GenerateNextNumber : Migration
 
     public override void Up()
     {
-        Execute.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\" WITH SCHEMA pg_catalog cascade");
+        Execute.Sql(@"CREATE EXTENSION IF NOT EXISTS ""pgcrypto"" WITH SCHEMA pg_catalog cascade");
 
         Execute.Sql(@"
             CREATE OR REPLACE PROCEDURE generate_next_number(competitionIdParam uuid)
@@ -20,16 +20,16 @@ public class _202302121803_CreateProcedure_GenerateNextNumber : Migration
             AS $$
 
             INSERT INTO numerators
-                (id, competitionId, lastNumber)
+                (""id"", ""competitionId"", ""currentNumber"")
             SELECT gen_random_uuid(), competitionIdParam, 0
             WHERE
                 NOT EXISTS (
-                    SELECT id FROM numerators WHERE competitionId = competitionIdParam
+                    SELECT ""id"" FROM numerators WHERE ""competitionId"" = competitionIdParam
                 );
 
             UPDATE numerators 
-	            SET lastNumber = lastNumber + 1 
-            WHERE competitionId = competitionIdParam;
+                SET ""currentNumber"" = ""currentNumber"" + 1 
+            WHERE ""competitionId"" = competitionIdParam;
 
             $$;");
     }
