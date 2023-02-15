@@ -19,6 +19,7 @@ public class NumberAssignatorFunction
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
 
         using var connection = CreateConnection();
+        connection.Open();
         var transaction = connection.BeginTransaction();
         try
         {
@@ -49,7 +50,7 @@ public class NumberAssignatorFunction
         {
             var sql = @"
                 call generate_next_number(@competitionId);
-                select lastNumber from numerators where competitionId = @competitionId;";
+                select ""currentNumber"" from numerators where ""competitionId"" = @competitionId;";
             return connection.ExecuteScalar<long>(sql, new { competitionId }, transaction);
         }
 
