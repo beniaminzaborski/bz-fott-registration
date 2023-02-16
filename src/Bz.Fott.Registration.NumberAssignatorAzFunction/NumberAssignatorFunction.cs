@@ -8,13 +8,18 @@ using Newtonsoft.Json;
 using System.Text.Json.Nodes;
 using System.Text;
 using Dapper;
+using Microsoft.Azure.WebJobs.Extensions.SignalRService;
+using System.Threading.Tasks;
 
 namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 
 public class NumberAssignatorFunction
 {
     [FunctionName("NumberAssignator")]
-    public void Run([ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage, ILogger log)
+    public void Run(
+        [ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
+        [SignalR(HubName = "registrations", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
+        ILogger log)
     {
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
 
@@ -26,6 +31,7 @@ public class NumberAssignatorFunction
             var number = GetNextNumber(registerCompetitor.CompetitionId);
             InsertCompetitor(registerCompetitor, number);
             transaction.Commit();
+            SendNotification(registerCompetitor, number);
         }
         catch (Exception ex)
         {
@@ -72,6 +78,29 @@ public class NumberAssignatorFunction
                 phoneNumber = registerCompetitor.PhoneNumber,
                 contactPersonNumber = registerCompetitor.ContactPersonNumber
             }, transaction);
+        }
+
+        Task SendNotification(RegisterCompetitor registerCompetitor, long number)
+        {
+            return signalrMessage.AddAsync(new SignalRMessage
+            {
+                Target = "registrations",
+                Arguments = new[]
+                { 
+                    new 
+                    {
+                        NotificationType = "CompetitorRegistered",
+                        registerCompetitor.RequestId,
+                        registerCompetitor.CompetitionId,
+                        registerCompetitor.FirstName,
+                        registerCompetitor.LastName,
+                        registerCompetitor.BirthDate,
+                        registerCompetitor.City,
+                        registerCompetitor.PhoneNumber,
+                        Number = number
+                    }
+                }
+            });
         }
     }
 }
