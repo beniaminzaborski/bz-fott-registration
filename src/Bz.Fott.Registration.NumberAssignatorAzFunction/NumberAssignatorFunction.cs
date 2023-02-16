@@ -18,7 +18,7 @@ public class NumberAssignatorFunction
     [FunctionName("NumberAssignator")]
     public void Run(
         [ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
-        [SignalR(HubName = "registrations", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
+        [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
         ILogger log)
     {
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
@@ -84,7 +84,7 @@ public class NumberAssignatorFunction
         {
             return signalrMessage.AddAsync(new SignalRMessage
             {
-                Target = "registrations",
+                Target = "notifications",
                 Arguments = new[]
                 { 
                     new 
