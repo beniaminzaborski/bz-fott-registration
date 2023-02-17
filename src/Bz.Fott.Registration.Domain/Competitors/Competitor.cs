@@ -10,7 +10,7 @@ public class Competitor : Entity<CompetitorId>, IAggregateRoot
     public Competitor(
        CompetitorId id,
        CompetitionId competitionId,
-       long number,
+       string number,
        string firstName,
        string lastName,
        DateTime birthDate,
@@ -31,7 +31,7 @@ public class Competitor : Entity<CompetitorId>, IAggregateRoot
 
     public CompetitionId CompetitionId { get; private set; }
 
-    public long Number { get; private set; }
+    public string Number { get; private set; }
 
     public string FirstName { get; private set; }
 
