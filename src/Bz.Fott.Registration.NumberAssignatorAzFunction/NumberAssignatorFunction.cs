@@ -16,11 +16,12 @@ namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 public class NumberAssignatorFunction
 {
     [FunctionName("NumberAssignator")]
-    [return: ServiceBus("completed-registrations", Connection = "ServiceBusConnection")]
-    public static object Run(
+    //[return: ServiceBus("completed-registrations", Connection = "ServiceBusConnectionString")]
+    public async Task Run(
         [ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
         [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
-        ILogger log)
+        ILogger log,
+        [ServiceBus("completed-registrations", Connection = "ServiceBusConnectionString")] IAsyncCollector<CompetitorRegisteredIntegrationEvent> outputMessageCollector)
     {
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
 
@@ -32,9 +33,9 @@ public class NumberAssignatorFunction
             var number = GetNextNumber(registerCompetitor.CompetitionId);
             InsertCompetitor(registerCompetitor, number);
             transaction.Commit();
-            SendNotification(registerCompetitor, number);
+            await SendNotification(registerCompetitor, number);
 
-            return new CompetitorRegisteredIntegrationEvent(
+            await outputMessageCollector.AddAsync(new CompetitorRegisteredIntegrationEvent(
                 registerCompetitor.CompetitionId,
                 registerCompetitor.FirstName,
                 registerCompetitor.LastName,
@@ -43,15 +44,13 @@ public class NumberAssignatorFunction
                 registerCompetitor.PhoneNumber,
                 registerCompetitor.ContactPersonNumber,
                 number.ToString()
-            );
+            ));
         }
         catch (Exception ex)
         {
             log.LogError($"Something went wrong for request id: {registerCompetitor.RequestId}. Details: {ex.Message}");
             transaction.Rollback();
         }
-
-        return null;
 
         static T GetMessageContent<T>(ServiceBusReceivedMessage receivedMessage)
         {
