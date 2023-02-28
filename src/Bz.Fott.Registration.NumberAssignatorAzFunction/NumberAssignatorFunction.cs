@@ -16,7 +16,8 @@ namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 public class NumberAssignatorFunction
 {
     [FunctionName("NumberAssignator")]
-    public void Run(
+    [return: ServiceBus("completed-registrations", Connection = "ServiceBusConnection")]
+    public static object Run(
         [ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
         [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
         ILogger log)
@@ -32,12 +33,25 @@ public class NumberAssignatorFunction
             InsertCompetitor(registerCompetitor, number);
             transaction.Commit();
             SendNotification(registerCompetitor, number);
+
+            return new CompetitorRegisteredIntegrationEvent(
+                registerCompetitor.CompetitionId,
+                registerCompetitor.FirstName,
+                registerCompetitor.LastName,
+                registerCompetitor.BirthDate,
+                registerCompetitor.City,
+                registerCompetitor.PhoneNumber,
+                registerCompetitor.ContactPersonNumber,
+                number.ToString()
+            );
         }
         catch (Exception ex)
         {
             log.LogError($"Something went wrong for request id: {registerCompetitor.RequestId}. Details: {ex.Message}");
             transaction.Rollback();
         }
+
+        return null;
 
         static T GetMessageContent<T>(ServiceBusReceivedMessage receivedMessage)
         {
