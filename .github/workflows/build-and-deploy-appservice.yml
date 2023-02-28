@@ -8,7 +8,7 @@ on:
       - ".github/workflows/build-and-deploy-functionapp.yml"
 
 env:
-  AZURE_WEBAPP_NAME: app-fott-registration-dev-westeu
+  AZURE_WEBAPP_NAME: ${{ vars.AZURE_WEBAPP_NAME }}
   AZURE_WEBAPP_PACKAGE_PATH: publish
   AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
   CONFIGURATION: Release
