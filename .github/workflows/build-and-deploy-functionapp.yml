@@ -12,7 +12,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: ${{ vars.AZURE_FUNCTIONAPP_NAME }}
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Bz.Fott.Registration.NumberAssignatorAzFunction/'
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Bz.Fott.Registration.NumberAssignatorAzFunction'
   AZURE_FUNCTIONAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_FUNCAPP_PUBLISH_PROFILE }}
   DOTNET_VERSION: '6.0'
   CONFIGURATION: Release
