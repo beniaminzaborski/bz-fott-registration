@@ -15,6 +15,8 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Bz.Fott.Registration.NumberAssignatorAzFunction/'
   AZURE_FUNCTIONAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_FUNCAPP_PUBLISH_PROFILE }}
   DOTNET_VERSION: '6.0'
+  CONFIGURATION: Release
+  WORKING_DIRECTORY: .
 
 jobs:
   build-and-deploy:
@@ -28,12 +30,12 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: 'Resolve Project Dependencies Using Dotnet'
-      shell: bash
-      run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
-        popd
+    - name: Restore
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/"
+
+    - name: Build
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/" --configuration ${{ env.CONFIGURATION }} --no-restore --output ./output
+
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
