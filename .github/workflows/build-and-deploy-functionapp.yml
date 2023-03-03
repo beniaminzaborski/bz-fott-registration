@@ -34,7 +34,7 @@ jobs:
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/"
 
     - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/" --configuration ${{ env.CONFIGURATION }} --no-restore --output ./output
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}/src/Bz.Fott.Registration.NumberAssignatorAzFunction/" --configuration ${{ env.CONFIGURATION }} --no-restore --output '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
 
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
