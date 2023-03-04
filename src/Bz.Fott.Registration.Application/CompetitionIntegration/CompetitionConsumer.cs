@@ -63,3 +63,11 @@ public class CompetitionConsumer :
         }
     }
 }
+
+public class CompetitionConsumerDefinition : ConsumerDefinition<CompetitionConsumer>
+{
+    public CompetitionConsumerDefinition()
+    {
+        EndpointName = "competition-events-to-registration-service";
+    }
+}
