@@ -29,7 +29,7 @@ internal class RegistrationService : IRegistrationService
         if(!competition.IsRegistrationOpen) throw new Common.Exceptions.ValidationException("Registration is closed");
 
         var requestId = Guid.NewGuid();
-        var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:registrations"));
+        var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:register-competitor"));
         await endpoint.Send(new RegisterCompetitor(
             requestId,
             dto.CompetitionId,

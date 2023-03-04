@@ -16,12 +16,11 @@ namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 public class NumberAssignatorFunction
 {
     [FunctionName("NumberAssignator")]
-    //[return: ServiceBus("completed-registrations", Connection = "ServiceBusConnectionString")]
     public async Task Run(
-        [ServiceBusTrigger("registrations", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
+        [ServiceBusTrigger("register-competitor", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
         [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
         ILogger log,
-        [ServiceBus("completed-registrations", Connection = "ServiceBusConnectionString")] IAsyncCollector<CompetitorRegisteredIntegrationEvent> outputMessageCollector)
+        [ServiceBus("registration-completed", Connection = "ServiceBusConnectionString")] IAsyncCollector<CompetitorRegisteredIntegrationEvent> outputMessageCollector)
     {
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
 
