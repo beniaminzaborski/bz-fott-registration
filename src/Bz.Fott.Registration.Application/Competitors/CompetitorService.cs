@@ -19,7 +19,7 @@ internal class CompetitorService : ICompetitorService
 
     public async Task<IEnumerable<CompetitorDto>> GetCompetitorsAsync(Guid competitionId)
     {
-        var competitors = await _competitorRepository.GetAllAsync();
+        var competitors = await _competitorRepository.GetAllByCompetitionIdAsync(CompetitionId.From(competitionId));
         return _mapper.Map<IEnumerable<Competitor>, IEnumerable<CompetitorDto>>(competitors);
     }
 }
