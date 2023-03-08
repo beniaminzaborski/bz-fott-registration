@@ -10,6 +10,7 @@ using System.Text;
 using Dapper;
 using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 
@@ -20,7 +21,7 @@ public class NumberAssignatorFunction
         [ServiceBusTrigger("register-competitor", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
         [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
         ILogger log,
-        [ServiceBus("registration-completed", Connection = "ServiceBusConnectionString")] IAsyncCollector<CompetitorRegisteredIntegrationEvent> outputMessageCollector)
+        [ServiceBus("registration-completed", Connection = "ServiceBusConnectionString")] IAsyncCollector<ServiceBusMessage> outputMessageCollector)
     {
         var registerCompetitor = GetMessageContent<RegisterCompetitor>(receivedMessage);
 
@@ -34,7 +35,7 @@ public class NumberAssignatorFunction
             transaction.Commit();
             await SendNotification(registerCompetitor, number);
 
-            await outputMessageCollector.AddAsync(new CompetitorRegisteredIntegrationEvent(
+            var integrationEvent = new CompetitorRegisteredIntegrationEvent(
                 registerCompetitor.CompetitionId,
                 registerCompetitor.FirstName,
                 registerCompetitor.LastName,
@@ -43,7 +44,9 @@ public class NumberAssignatorFunction
                 registerCompetitor.PhoneNumber,
                 registerCompetitor.ContactPersonNumber,
                 number.ToString()
-            ));
+            );
+            var message = new ServiceBusMessage(System.Text.Json.JsonSerializer.Serialize(integrationEvent));
+            await outputMessageCollector.AddAsync(message);
         }
         catch (Exception ex)
         {
