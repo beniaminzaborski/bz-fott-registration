@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\build-and-deploy-functionapp.yml = .github\workflows\build-and-deploy-functionapp.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bz.Fott.Registration.NumberAssignatorAzFunction", "src\Bz.Fott.Registration.NumberAssignatorAzFunction\Bz.Fott.Registration.NumberAssignatorAzFunction.csproj", "{57455E30-9F4E-4520-BC67-2C66A208F76F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bz.Fott.Registration.NumberAssignatorAzFunction", "src\Bz.Fott.Registration.NumberAssignatorAzFunction\Bz.Fott.Registration.NumberAssignatorAzFunction.csproj", "{57455E30-9F4E-4520-BC67-2C66A208F76F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

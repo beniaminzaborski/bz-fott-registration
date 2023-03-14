@@ -17,6 +17,7 @@ public class Startup : FunctionsStartup
         builder.Services
             .AddScoped<ICompetitorService, CompetitorService>()
             .AddScoped<NumberAssignatorFunction>()
+            .AddScoped<CompetitorNotificationFunction>()
             .AddMassTransitForAzureFunctions(cfg =>
             {
                 cfg.AddConsumersFromNamespaceContaining<ConsumerNamespace>();
