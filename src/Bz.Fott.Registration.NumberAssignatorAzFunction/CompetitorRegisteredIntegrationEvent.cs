@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MassTransit;
+using System;
 
 namespace Bz.Fott.Registration;
 
+[EntityName("registration-completed")]
 public sealed record CompetitorRegisteredIntegrationEvent(
         Guid CompetitionId,
         string FirstName,
