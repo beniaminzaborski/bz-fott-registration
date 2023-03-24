@@ -50,6 +50,7 @@ public class CompetitorNotificationFunction
                     {
                         NotificationType = "CompetitorRegistered",
                         //registeredCompetitor.RequestId,
+                        registeredCompetitor.CompetitorId,
                         registeredCompetitor.CompetitionId,
                         registeredCompetitor.FirstName,
                         registeredCompetitor.LastName,

@@ -5,6 +5,7 @@ namespace Bz.Fott.Registration;
 
 [EntityName("registration-completed")]
 public sealed record CompetitorRegisteredIntegrationEvent(
+        Guid CompetitorId,
         Guid CompetitionId,
         string FirstName,
         string LastName,

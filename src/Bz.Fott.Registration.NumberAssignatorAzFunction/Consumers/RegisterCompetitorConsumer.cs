@@ -22,11 +22,12 @@ public class RegisterCompetitorConsumer : IConsumer<RegisterCompetitor>
            registerCompetitor.LastName,
            registerCompetitor.CompetitionId);
 
-        string number = await _competitorService.RegisterCompetitorAndReturnNumber(registerCompetitor);
+        (var id, var number) = await _competitorService.RegisterCompetitorAndReturnNumber(registerCompetitor);
 
-        if (!string.IsNullOrEmpty(number))
+        if (id != System.Guid.Empty && !string.IsNullOrEmpty(number))
         {
             await context.Publish(new CompetitorRegisteredIntegrationEvent(
+                id,
                 registerCompetitor.CompetitionId,
                 registerCompetitor.FirstName,
                 registerCompetitor.LastName,
