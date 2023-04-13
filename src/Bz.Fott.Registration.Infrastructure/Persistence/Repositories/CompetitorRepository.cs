@@ -18,4 +18,11 @@ internal class CompetitorRepository : Repository<Competitor, CompetitorId, Appli
             .Where(c => c.CompetitionId.Equals(competitionId))
             .ToListAsync();
     }
+
+    public async Task<int> GetNumberOfRegisteredCompetitorsAsync(CompetitionId competitionId)
+    {
+        return await _dbContext.Set<Competitor>()
+            .Where(c => c.CompetitionId.Equals(competitionId))
+            .CountAsync();
+    }
 }
