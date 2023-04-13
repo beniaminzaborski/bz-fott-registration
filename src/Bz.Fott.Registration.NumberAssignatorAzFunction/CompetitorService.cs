@@ -24,7 +24,13 @@ internal class CompetitorService : ICompetitorService
         try
         {
             var id = Guid.NewGuid();
+
+            var maxNumerOfCompetitors = await GetMaxNumberOfCompetitorsAsync(competitor.CompetitionId);
+            var numerOfRegistrations = await GetNumberOfRegisteredCompetitorsAsync(competitor.CompetitionId);
+            if (numerOfRegistrations >= maxNumerOfCompetitors) throw new Exception("Registrations have reached the limit");
+            
             var number = await GetNextNumberAsync(competitor.CompetitionId);
+            
             await InsertCompetitorAsync(competitor, id, number);
             await transaction.CommitAsync();
             return (id, number.ToString());
@@ -36,6 +42,20 @@ internal class CompetitorService : ICompetitorService
         }
 
         return (Guid.Empty, string.Empty);
+
+        async Task<int> GetMaxNumberOfCompetitorsAsync(Guid competitionId)
+        {
+            var sql = @"
+                select ""maxCompetitors"" from competitions c where c.""id"" = @competitionId;";
+            return await connection.ExecuteScalarAsync<int>(sql, new { competitionId }, transaction);
+        }
+
+        async Task<int> GetNumberOfRegisteredCompetitorsAsync(Guid competitionId)
+        {
+            var sql = @"
+                select count(id) from competitors c where c.""competitionId"" = @competitionId;";
+            return await connection.ExecuteScalarAsync<int>(sql, new { competitionId }, transaction);
+        }
 
         async Task<long> GetNextNumberAsync(Guid competitionId)
         {
