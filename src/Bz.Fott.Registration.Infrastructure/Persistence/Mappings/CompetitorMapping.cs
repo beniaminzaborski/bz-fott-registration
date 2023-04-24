@@ -27,6 +27,9 @@ internal class CompetitorMapping : IEntityTypeConfiguration<Competitor>
         builder.Property(e => e.City).HasColumnName("city");
         builder.Property(e => e.PhoneNumber).HasColumnName("phoneNumber");
         builder.Property(e => e.ContactPersonNumber).HasColumnName("contactPersonNumber");
-        builder.Property(e => e.NetTime).HasColumnName("netTime");
+        
+        builder.Property(e => e.NetTime)
+            .HasColumnName("netTime")
+            .HasConversion<long?>(entityValue => entityValue.HasValue ? entityValue.Value.Ticks : null, dbValue => dbValue.HasValue ? TimeSpan.FromTicks(dbValue.Value) : null);
     }
 }
