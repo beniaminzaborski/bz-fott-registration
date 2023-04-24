@@ -31,6 +31,7 @@ public class CompetitorConsumer : IConsumer<CompetitorTimeCalculatedIntegrationE
         if (competitor is not null)
         {
             competitor.SetNetTime(message.NetTime);
+            await _competitorRepository.UpdateAsync(competitor);
             await _unitOfWork.CommitAsync();
         }
     }
