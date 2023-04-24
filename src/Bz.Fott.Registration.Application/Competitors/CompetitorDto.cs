@@ -9,4 +9,5 @@ public record CompetitorDto
     public string LastName { get; init; }
     public DateTime BirthDate { get; init; }
     public string City { get; init; }
+    public TimeSpan? NetTime { get; init; }
 }
