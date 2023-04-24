@@ -46,7 +46,7 @@ public class Competitor : Entity<CompetitorId>, IAggregateRoot
 
     public string ContactPersonNumber { get; private set; }
 
-    public TimeSpan NetTime { get; private set; }
+    public TimeSpan? NetTime { get; private set; }
 
     public void SetNetTime(TimeSpan netTime)
     {

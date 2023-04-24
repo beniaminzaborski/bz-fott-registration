@@ -1,7 +1,4 @@
-﻿using Bz.Fott.Administration.Application.Competitions;
-using Bz.Fott.Registration.Application.Common;
-using Bz.Fott.Registration.Application.CompetitionIntegration;
-using Bz.Fott.Registration.Domain.CompetitionIntegration;
+﻿using Bz.Fott.Registration.Application.Common;
 using Bz.Fott.Registration.Domain.Competitors;
 using Bz.Fott.Telemetry.IntegrationEvents;
 using MassTransit;
