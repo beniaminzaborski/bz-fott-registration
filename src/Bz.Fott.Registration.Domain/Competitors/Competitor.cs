@@ -1,5 +1,6 @@
 ﻿using Bz.Fott.Registration.Domain.Common;
 using Bz.Fott.Registration.Domain.CompetitionIntegration;
+using System;
 
 namespace Bz.Fott.Registration.Domain.Competitors;
 
@@ -44,4 +45,11 @@ public class Competitor : Entity<CompetitorId>, IAggregateRoot
     public string PhoneNumber { get; private set; }
 
     public string ContactPersonNumber { get; private set; }
+
+    public TimeSpan NetTime { get; private set; }
+
+    public void SetNetTime(TimeSpan netTime)
+    {
+        NetTime = netTime;
+    }
 }
