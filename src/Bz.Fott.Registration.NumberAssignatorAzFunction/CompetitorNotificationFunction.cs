@@ -15,6 +15,7 @@ namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 public class CompetitorNotificationFunction
 {
     private const string signalrHubName = "notifications";
+    private const string signalrConnectionStringSetting = "SignalRConnectionString";
 
     private readonly ILogger<CompetitorNotificationFunction> _logger;
 
@@ -27,7 +28,7 @@ public class CompetitorNotificationFunction
     [FunctionName("negotiate")]
     public static SignalRConnectionInfo Negotiate(
            [HttpTrigger(AuthorizationLevel.Anonymous)] HttpRequest req,
-           [SignalRConnectionInfo(HubName = signalrHubName)] SignalRConnectionInfo connectionInfo)
+           [SignalRConnectionInfo(HubName = signalrHubName, ConnectionStringSetting = signalrConnectionStringSetting)] SignalRConnectionInfo connectionInfo)
     {
         return connectionInfo;
     }
@@ -35,7 +36,7 @@ public class CompetitorNotificationFunction
     [FunctionName("CompetitorNotificationFunction")]
     public async Task Run(
         [ServiceBusTrigger("registration-completed-events-to-registr-service", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
-        [SignalR(HubName = signalrHubName, ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
+        [SignalR(HubName = signalrHubName, ConnectionStringSetting = signalrConnectionStringSetting)] IAsyncCollector<SignalRMessage> signalrMessage,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Run CompetitorNotificationFunction");
