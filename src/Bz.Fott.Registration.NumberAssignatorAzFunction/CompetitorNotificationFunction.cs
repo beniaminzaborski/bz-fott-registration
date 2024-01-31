@@ -7,11 +7,15 @@ using System.Text.Json.Nodes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace Bz.Fott.Registration.NumberAssignatorAzFunction;
 
 public class CompetitorNotificationFunction
 {
+    private const string signalrHubName = "notifications";
+
     private readonly ILogger<CompetitorNotificationFunction> _logger;
 
     public CompetitorNotificationFunction(
@@ -20,10 +24,18 @@ public class CompetitorNotificationFunction
         _logger = logger;
     }
 
+    [FunctionName("negotiate")]
+    public static SignalRConnectionInfo Negotiate(
+           [HttpTrigger(AuthorizationLevel.Anonymous)] HttpRequest req,
+           [SignalRConnectionInfo(HubName = signalrHubName)] SignalRConnectionInfo connectionInfo)
+    {
+        return connectionInfo;
+    }
+
     [FunctionName("CompetitorNotificationFunction")]
     public async Task Run(
         [ServiceBusTrigger("registration-completed-events-to-registr-service", Connection = "ServiceBusConnectionString")] ServiceBusReceivedMessage receivedMessage,
-        [SignalR(HubName = "notifications", ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
+        [SignalR(HubName = signalrHubName, ConnectionStringSetting = "SignalRConnectionString")] IAsyncCollector<SignalRMessage> signalrMessage,
         CancellationToken cancellationToken)
     {
         _logger.LogInformation($"Run CompetitorNotificationFunction");
