@@ -43,7 +43,6 @@ public static class DependencyInjection
                 .AddAspNetCoreInstrumentation()
                 .AddConsoleExporter()
                 .AddAzureMonitorMetricExporter(cfg => cfg.ConnectionString = appInsightsConnectionString))
-            .StartWithHost()
             .Services;
     }
 }
